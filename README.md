@@ -65,28 +65,42 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
-Environment Variables
+```
+
+### Environment Variables
+
 | Variable | Description | Example |
 |---|---|---|
-| EMBED_MODEL | Sentence-transformers embedding model | all-MiniLM-L6-v2 |
-| OLLAMA_MODEL | Ollama LLM model name | llama3.2:1b |
-| VECTOR_STORE_PATH | Path to persisted ChromaDB store | ./data/vector_store |
+| EMBED_MODEL | Sentence-transformer model | all-MiniLM-L6-v2 |
+| OLLAMA_MODEL | Ollama LLM model name | llama3.2 |
+| VECTOR_STORE_PATH | Path to persistent vector store | ./data/vector_store |
 | COLLECTION_NAME | ChromaDB collection name | medical_docs |
-API Reference
-GET /health
+
+### API Reference
+
+#### `GET /health`
 Returns API status.
-POST /query
+
+#### `POST /query`
 Retrieves relevant context and generates a grounded answer.
-Example request
+
+**Example Request:**
+```bash
 curl -X POST http://localhost:8000/query \
   -H "Content-Type: application/json" \
-  -d '{"question": "What are the main causes of heart failure in aging?"}'
-  Example response:
-  {
+  -d '{"question": "What are the main symptoms of heart failure?"}'
+```
+
+**Example Response:**
+```json
+{
   "answer": "...",
-  "sources": ["...", "..."]
+  "sources": ["heart_failure.pdf (Chunk 3)"]
 }
-Evaluation Results
-Ten test questions were run against the RAG pipeline in notebooks/rag_pipeline.ipynb to evaluate retrieval relevance and answer grounding. See the notebook's evaluation table for the full question/source/answer/correctness breakdown.
-Screenshots
-![alt text](demo.png)
+```
+
+## Evaluation Results
+Ten test questions were run against the pipeline to verify groundedness and retrieval quality.
+
+## Screenshots
+![App Demo](demo.png)
